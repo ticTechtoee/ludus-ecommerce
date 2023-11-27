@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import MinLengthValidator
 from django.core.validators import MinLengthValidator as MinLengthValidatorWidget
 from .models import WebUser
+from django.contrib.auth.forms import AuthenticationForm
 
 class WebUserRegistrationForm(UserCreationForm):
     first_name = forms.CharField(
@@ -70,3 +71,31 @@ class WebUserRegistrationForm(UserCreationForm):
     class Meta:
         model = WebUser
         fields = ['first_name', 'last_name', 'email', 'birth_month', 'birth_day', 'birth_year', 'gender', 'password1', 'password2']
+
+class WebUserLoginForm(AuthenticationForm):
+    email = forms.EmailField(
+        widget=forms.TextInput(attrs={
+            'class': 'input-text input-text--primary-style',
+            'placeholder': 'Enter E-mail',
+        })
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'input-text input-text--primary-style',
+            'placeholder': 'Enter Password',
+        })
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set the 'username' field to use the 'email' field value for authentication
+        self.fields['username'].widget = forms.HiddenInput()
+        self.fields['username'].validators = []
+        self.fields['username'].required = False
+        self.fields['username'].widget.attrs.update({'value': 'email'})
+
+    def clean(self):
+        # Update the cleaned_data to use the email field for authentication
+        cleaned_data = super().clean()
+        cleaned_data['username'] = cleaned_data.get('email')
+        return cleaned_data
