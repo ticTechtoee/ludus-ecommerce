@@ -8,9 +8,10 @@ class Size(models.Model):
 
 class Color(models.Model):
     name = models.CharField(max_length=20, unique=True)
+    color_code = models.CharField(max_length=7)
 
     def __str__(self):
-        return self.name
+        return self.color_code
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -38,6 +39,10 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now=True)
+    sales_count = models.PositiveIntegerField(default=0)
+    rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
+    is_featured = models.BooleanField(default=False)
     size = models.ForeignKey(Size, null=True, blank=True, on_delete=models.SET_NULL)
     color = models.ForeignKey(Color, null=True, blank=True, on_delete=models.SET_NULL)
     image = models.ImageField(upload_to='product_images/', null=True, blank=True)
