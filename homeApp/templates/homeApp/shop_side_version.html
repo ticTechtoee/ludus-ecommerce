@@ -280,15 +280,15 @@
                                     </div>
                                     <div class="shop-w__wrap collapse show" id="s-color">
                                         <ul class="shop-w__list gl-scroll">
-                                            {% for color in Colors %}
+                                           {% for color_code, count in Colors %}
                                             <li>
                                                 <div class="color__check">
 
                                                     <input type="checkbox" id="jet">
 
-                                                    <label class="color__check-label" for="jet" style="background-color:#0000"> </label> </div>
+                                                    <label class="color__check-label" for="jet" style="background-color:{{color_code}}"> </label> </div>
 
-                                                    <span class="shop-w__total-text">(2)</span>
+                                                    <span class="shop-w__total-text">({{count}})</span>
                                                 </li>
                                             {% endfor %}
 
@@ -306,7 +306,7 @@
                                     </div>
                                     <div class="shop-w__wrap collapse" id="s-size">
                                         <ul class="shop-w__list gl-scroll">
-                                            {% for size in Sizes %}
+                                            {% for size, count in Sizes %}
                                             <li>
 
                                                 <!--====== Check Box ======-->
@@ -315,12 +315,12 @@
                                                     <input type="checkbox" id="xs">
                                                     <div class="check-box__state check-box__state--primary">
 
-                                                        <label class="check-box__label" for="xs">{{size.name}}</label>
+                                                        <label class="check-box__label" for="xs">{{size}}</label>
                                                     </div>
                                                 </div>
                                                 <!--====== End - Check Box ======-->
 
-                                                <span class="shop-w__total-text">(2)</span>
+                                                <span class="shop-w__total-text">({{count}})</span>
                                             </li>
                                             {% endfor %}
 

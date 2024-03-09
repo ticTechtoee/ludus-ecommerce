@@ -1,12 +1,12 @@
 from django.shortcuts import render
 
-from .models import Category, Subcategory, Product, Color, Size
+from .models import MainCategory, Product, Color, Size
 
 
 
 def ViewIndexPage(request):
     # Fetch all categories
-    categories = Category.objects.all()
+    categories = MainCategory.objects.all()
 
     # Dictionary to store products for each category
     category_products = {}
@@ -37,11 +37,33 @@ def ViewIndexPage(request):
 
 
 def ViewShopSideVersion(request):
-    get_categories = Category.objects.all()
-    get_color = Product.objects.values('color__color_code').distinct()
+    get_categories = MainCategory.objects.all()
 
-    get_size = Product.objects.values('name').distinct()
+    # Query to retrieve all products
+    get_product = Product.objects.all()
+
+    # Create an empty dictionary to store the count of each color
+    color_counts = {}
+    size_counts = {}
+
+    # Iterate through each product and update the color counts
+    for item in get_product:
+        color = item.color
+        size = item.size
+        if color:
+            color_code = color.color_code
+            if color_code in color_counts:
+                color_counts[color_code] += 1
+            else:
+                color_counts[color_code] = 1
+        if size:
+            item_size = size.name
+            if item_size in size_counts:
+                size_counts[item_size] += 1
+            else:
+                size_counts[item_size] = 1
 
 
-    context = {'Categories': get_categories, 'Colors': get_color, 'Sizes': get_size}
+
+    context = {'Categories': get_categories, 'Colors': color_counts.items(), "Sizes":size_counts.items()}
     return render(request, 'homeApp/shop_side_version.html', context)

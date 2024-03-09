@@ -13,32 +13,44 @@ class Color(models.Model):
     def __str__(self):
         return self.color_code
 
-class Category(models.Model):
+class MainCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
     parent_category = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name_plural = "Categories"
+        verbose_name_plural = "Main Categories"
 
     def __str__(self):
         return self.name
 
 class Subcategory(models.Model):
     name = models.CharField(max_length=255)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    main_category = models.ForeignKey(MainCategory, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name_plural = "Subcategories"
+        verbose_name_plural = "Sub Categories"
 
     def __str__(self):
         return self.name
+
+# class SubSubcategory(models.Model):
+#     name = models.CharField(max_length=255)
+#     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+
+#     class Meta:
+#         verbose_name_plural = "Sub Subcategories"
+
+#     def __str__(self):
+#         return self.name
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
+    main_category = models.ForeignKey(MainCategory, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+    # sub_subcategory = models.ForeignKey(SubSubcategory, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
     sales_count = models.PositiveIntegerField(default=0)
     rating = models.DecimalField(max_digits=2, decimal_places=1, null=True, blank=True)
