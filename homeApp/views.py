@@ -14,7 +14,7 @@ def ViewIndexPage(request):
     # Loop through categories and get products for each category
     for category in categories:
         # Get products for the current category and order them as needed
-        products = Product.objects.filter(subcategory__category=category)
+        products = Product.objects.filter(subcategory__main_category=category)
 
         latest_products = products.order_by('-created_at')[:3]
         best_selling_products = products.order_by('-sales_count')[:3]

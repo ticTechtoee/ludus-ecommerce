@@ -18,7 +18,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
-AUTH_USER_MODEL = "accountsApp.WebUser" 
+AUTH_USER_MODEL = "accountsApp.WebUser"
 
 # Application definition
 
@@ -64,24 +64,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ludus.wsgi.application'
 
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'ERROR',  # Set the log level as needed
-            'class': 'logging.FileHandler',
-            'filename': 'error.log',  # Specify the log file name and path
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'ERROR',  # Set the log level as needed
-            'propagate': True,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'file': {
+#             'level': 'ERROR',  # Set the log level as needed
+#             'class': 'logging.FileHandler',
+#             'filename': 'error.log',  # Specify the log file name and path
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['file'],
+#             'level': 'ERROR',  # Set the log level as needed
+#             'propagate': True,
+#         },
+#     },
+# }
 
 # DATABASES = {
 #     'default': {
